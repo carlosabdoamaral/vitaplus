@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vitaplus/modals/workout_feedback_modal.dart';
 import 'package:vitaplus/models/workout_model.dart';
 import 'package:vitaplus/pages/home/home_page.dart';
 import 'package:vitaplus/utils/color_utils.dart';
@@ -41,11 +42,18 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
   }
 
   void finishWorkout() {
-    nextExercise();
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return WorkoutFeedbackModal(
+          workout: workoutModel!,
+        );
+      },
+      enableDrag: false,
+      backgroundColor: Colors.transparent,
+    );
+
     resetWorkout();
-    Navigator.pop(context);
-    // Handle finish
-    // ...
   }
 
   void nextExercise() {
@@ -156,7 +164,8 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                           bottomRight: Radius.circular(30),
                         ),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 40),
                       child: Text(
                         workoutDidStart
                             ? widget
@@ -241,7 +250,7 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                   ),
                 ],
               ),
-              
+
               // EXERCÍCIOS
               Expanded(
                 child: SingleChildScrollView(
@@ -322,19 +331,10 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                       Text(
                                         widget.workout.exercises[i].name,
                                         style: const TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Text(
-                                        widget.workout.exercises[i].description,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 5),
                                       SingleChildScrollView(
                                         physics:
                                             const AlwaysScrollableScrollPhysics(),

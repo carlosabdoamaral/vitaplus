@@ -1,0 +1,74 @@
+# Flutter/Dart/Pub related
+.dart_tool/
+.packages
+build/
+pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-versions
+.flutter/
+
+# Android related
+local.properties
+**/*.iml
+.idea/
+.gradle/
+*/.idea/
+*/.gradle/
+*.keystore
+*.jks
+
+# iOS related
+Pods/
+Podfile.lock
+.podspec
+*.xcworkspace
+DerivedData/
+.xcuserdatad/
+*.hmap
+*.ipa
+*.app.dSYM
+.build/
+
+# Web related
+*.dart_tool/
+*.packages
+build/
+.idea/
+.dart_tool/
+.packages
+build/
+node_modules/
+
+# Obfuscation
+*.symbolMap
+*.symbols
+.dart_tool/
+
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.pyo
+*.swp
+*.lock
+*.lock.*
+*.sql
+*.sqlite
+.DS_Store
+*.log
+*.gz
+*.iml
+*.ipr
+*.iws
+*.jar
+
+# JetBrains related
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Visual Studio Code related
+.vscode/
+.history/
