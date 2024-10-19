@@ -1,13 +1,15 @@
+import 'package:vitaplus/models/exercise_model.dart';
+
 class WorkoutModel {
-  final String id;
+  final int? id;
   final String name;
   final int durationInMinutes;
   final String category;
   final String bannerImage; // Imagem de banner do treino
-  List<Exercise> exercises;
+  final List<ExerciseModel> exercises;
 
-  WorkoutModel({
-    required this.id,
+  const WorkoutModel({
+    this.id,
     required this.name,
     required this.durationInMinutes,
     required this.category,
@@ -15,23 +17,22 @@ class WorkoutModel {
     required this.exercises,
   });
 
-  int getTotalDurationInMinutes() {
-    return exercises.fold(
-      0,
-      (total, exercise) =>
-          total +
-          (exercise.reps * exercise.durationPerRepInSeconds ~/ 60) +
-          (exercise.sets * exercise.restBetweenSetsInSeconds ~/ 60),
-    );
-  }
-
-  void addExercise(Exercise exercise) {
-    exercises.add(exercise);
-  }
-
-  void removeExercise(Exercise exercise) {
-    exercises.remove(exercise);
-  }
+  WorkoutModel copy({
+    int? id,
+    String? name,
+    int? durationInMinutes,
+    String? category,
+    String? bannerImage,
+    List<ExerciseModel>? exercises,
+  }) =>
+      WorkoutModel(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        durationInMinutes: durationInMinutes ?? this.durationInMinutes,
+        category: category ?? this.category,
+        bannerImage: bannerImage ?? this.bannerImage,
+        exercises: exercises ?? this.exercises,
+      );
 
   Map<String, dynamic> toMap() {
     return {
@@ -51,65 +52,9 @@ class WorkoutModel {
       durationInMinutes: map['durationInMinutes'],
       category: map['category'],
       bannerImage: map['bannerImage'],
-      exercises: List<Exercise>.from(
-        map['exercises']?.map((e) => Exercise.fromMap(e)) ?? [],
+      exercises: List<ExerciseModel>.from(
+        map['exercises']?.map((e) => ExerciseModel.fromMap(e)) ?? [],
       ),
-    );
-  }
-}
-
-class Exercise {
-  final String id;
-  final String name;
-  final int sets;
-  final int reps;
-  final int durationPerRepInSeconds;
-  final int restBetweenSetsInSeconds;
-  final String bannerImage;
-  final String videoUrl;
-  final String description;
-  int status; // 0, 1, 2 -> 0 Not Started, 1 Doing, 2 Done
-
-  Exercise({
-    required this.id,
-    required this.name,
-    required this.sets,
-    required this.reps,
-    required this.durationPerRepInSeconds,
-    required this.restBetweenSetsInSeconds,
-    required this.bannerImage,
-    required this.videoUrl,
-    required this.description,
-    required this.status,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'sets': sets,
-      'reps': reps,
-      'durationPerRepInSeconds': durationPerRepInSeconds,
-      'restBetweenSetsInSeconds': restBetweenSetsInSeconds,
-      'bannerImage': bannerImage,
-      'videoUrl': videoUrl,
-      'description': description,
-      'status': status,
-    };
-  }
-
-  factory Exercise.fromMap(Map<String, dynamic> map) {
-    return Exercise(
-      id: map['id'],
-      name: map['name'],
-      sets: map['sets'],
-      reps: map['reps'],
-      durationPerRepInSeconds: map['durationPerRepInSeconds'],
-      restBetweenSetsInSeconds: map['restBetweenSetsInSeconds'],
-      bannerImage: map['bannerImage'],
-      videoUrl: map['videoUrl'],
-      description: map['description'],
-      status: map['status'],
     );
   }
 }

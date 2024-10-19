@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vitaplus/db/workout_historic.dart';
+import 'package:vitaplus/main.dart';
 import 'package:vitaplus/models/feedback_model.dart';
 import 'package:vitaplus/models/workout_model.dart';
-import 'package:vitaplus/pages/home/home_page.dart';
 
 class WorkoutFeedbackModal extends StatefulWidget {
-  const WorkoutFeedbackModal({super.key, required this.workout});
+  const WorkoutFeedbackModal(
+      {super.key, required this.workout, required this.onSave});
 
   final WorkoutModel workout;
+  final Function onSave;
 
   @override
   State<WorkoutFeedbackModal> createState() => _WorkoutFeedbackModalState();
@@ -117,24 +120,44 @@ class _WorkoutFeedbackModalState extends State<WorkoutFeedbackModal> {
             ),
             const SizedBox(height: 40),
             GestureDetector(
-              onTap: () {
-                setState(() {
-                  for (var e in widget.workout.exercises) {
-                    e.status = 0;
+              onTap: () async {
+                List<int> exercisesDone = [];
+                for (var e in widget.workout.exercises) {
+                  if (e.status == 2) {
+                    exercisesDone.add(e.id ?? 0);
                   }
-                });
+                }
+
+                widget.onSave();
+
+                int note = 0;
+                for (var fe in feedbacks) {
+                  if (fe.active == true) {
+                    note = fe.note;
+                  }
+                }
+
+                await createWorkoutHistoric(
+                  WorkoutHistoric(
+                    workoutId: widget.workout.id ?? 0,
+                    exercisesDone: exercisesDone.join(","),
+                    feedbackNote: note,
+                    durationInMinutes: widget.workout.durationInMinutes,
+                    createdAt: DateTime.now(),
+                  ),
+                );
 
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const HomePage(),
+                    builder: (context) => const Run(),
                   ),
                   (Route<dynamic> route) => false,
                 );
               },
               child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                   color: Colors.indigo,
                   borderRadius: BorderRadius.circular(15),

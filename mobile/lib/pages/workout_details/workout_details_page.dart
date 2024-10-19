@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vitaplus/modals/workout_feedback_modal.dart';
 import 'package:vitaplus/models/workout_model.dart';
 import 'package:vitaplus/pages/home/home_page.dart';
-import 'package:vitaplus/utils/color_utils.dart';
 import 'package:vitaplus/utils/colors.dart';
 
 class WorkoutDetailsPage extends StatefulWidget {
@@ -47,13 +44,14 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
       builder: (BuildContext context) {
         return WorkoutFeedbackModal(
           workout: workoutModel!,
+          onSave: () {
+            resetWorkout();
+          }
         );
       },
       enableDrag: false,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
     );
-
-    resetWorkout();
   }
 
   void nextExercise() {

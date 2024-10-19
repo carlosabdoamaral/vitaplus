@@ -23,7 +23,7 @@ class _SearchbarWidgetState extends State<SearchbarWidget> {
           vertical: 15,
         ),
         hintText: 'Busque o treino de hoje...',
-        prefixIcon: Icon(Icons.search, color: Colors.grey),
+        prefixIcon: const Icon(Icons.search, color: Colors.grey),
       ),
     );
   }

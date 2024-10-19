@@ -16,7 +16,7 @@ class _DailyWorkoutsTimeModalState extends State<DailyWorkoutsTimeModal> {
     return Container(
       height: MediaQuery.of(context).size.height * 0.5,
       width: double.infinity,
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(30),

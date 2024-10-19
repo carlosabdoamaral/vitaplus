@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vitaplus/data/quotes_data.dart';
-import 'package:vitaplus/modals/daily_workouts_qtty_modal.dart';
-import 'package:vitaplus/modals/daily_workouts_time_modal.dart';
+import 'package:vitaplus/db/workout_historic.dart';
+import 'package:vitaplus/main.dart';
 import 'package:vitaplus/pages/home/home_shortcuts_widget.dart';
 import 'package:vitaplus/pages/home/searchbar_widget.dart';
 import 'package:vitaplus/utils/colors.dart';
 import 'package:vitaplus/data/workout_data.dart';
-import 'package:vitaplus/widgets/dashboard_item_widget.dart';
 import 'package:vitaplus/widgets/motivacional_quote_widget.dart';
 import 'package:vitaplus/widgets/workout_item_widget.dart';
 
@@ -19,6 +18,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<WorkoutHistoric> historic = [];
+
+  void updateHistoric() {
+    setState(() {
+      historic = workoutHistoricNotifier.getHistoric;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    readAllWorkoutHistorics();
+
+    workoutHistoricNotifier.addListener(() {
+      updateHistoric();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +54,7 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
+          height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
